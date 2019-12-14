@@ -47,9 +47,10 @@
 
     <h2>My Table</h2>
 
-    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search all columns.." title="Search">
 
     <table id="myTable">
+
         <tr class="header">
             <th style="width:40%;">Name</th>
             <th style="width:30%;">Fake Country</th>
@@ -2559,27 +2560,35 @@
         </tr>
 
 
+
     </table>
 
     <script>
-        function myFunction() {
-            var input, filter, table, tr, td1, td2, i, txtValue1, txtValue2, tdArray, x, textValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
+        function myFunction() { //Called on "onkeyup" event for the "myInput" input field
+            var input, filter, table, trArray, i, x, tdArray, textValue;
+            input = document.getElementById("myInput"); //Gets users input
+            filter = input.value.toUpperCase(); //Upper Cases the users input
+            table = document.getElementById("myTable"); //Gets the table DOM element
+            trArray = table.getElementsByTagName("tr");  //Gets all tr tags in the table DOM element
 
-            for (i = 0; i < tr.length; i++) {
-                //create an array of td and loop thru the td array to check filter
-                tdArray = tr[i].getElementsByTagName("td");
+            //Loops thru each table row
+            for (i = 0; i < trArray.length; i++) { 
+                tdArray = trArray[i].getElementsByTagName("td");    //Gets all td tags inside the current table row
+
+                //Loops thru each column in the table row
                 for (x = 0; x < tdArray.length; x++) {
-                    if (tdArray[x]) {
-                        textValue = tdArray[x].textContent || tdArray[x].innerText;
+
+                    if (tdArray[x]) {   //Exists check
+                        textValue = tdArray[x].textContent || tdArray[x].innerText; //Gets the columns text
+
+                        //Checks if the current column has the users input
                         if (textValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                            break;  //If one result found just break out of the td check loop
+
+                            trArray[i].style.display = "";  //Match found
+                            break;  //Only one match needed to display the table row
+
                         } else {
-                            tr[i].style.display = "none";
+                            trArray[i].style.display = "none";  //No Match found so hide table row
                         }
                     }
                 }
